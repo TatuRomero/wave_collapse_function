@@ -2,7 +2,7 @@ const celdas = []; // 4x4
 const RETICULA = 4;
 
 const azulejos = [];
-const NA = 8; //Numero de azulejos
+const NA = 12; //Numero de azulejos
 
 const reglas = [
   //reglas de los bordes de cada azulejo
@@ -69,6 +69,38 @@ const reglas = [
     DOWN: 0,
     LEFT: 0,
   },
+
+  {
+    //tile8
+    UP: 0,
+    RIGHT: 2,
+    DOWN: 0,
+    LEFT: 0,
+  },
+
+  {
+    //tile9
+    UP: 0,
+    RIGHT: 0,
+    DOWN: 2,
+    LEFT: 0,
+  },
+
+  {
+    //tile10
+    UP: 0,
+    RIGHT: 2,
+    DOWN: 2,
+    LEFT: 0,
+  },
+
+  {
+    //tile11
+    UP: 0,
+    RIGHT: 0,
+    DOWN: 2,
+    LEFT: 0,
+  },
 ];
 
 function preload() {
@@ -91,7 +123,35 @@ function setup() {
       opciones: opcionesI,
     };
   }
-  print(celdas);
+
+  /*celdas[8].colapsada = true;
+  celdas[3].colapsada = true;
+
+  celdas[12].opciones = [5, 6, 8];
+  celdas[4].opciones = [4, 7, 12];
+  celdas[6].opciones = [9, 7, 12];
+  celdas[1].opciones = [6, 4, 8, 10];
+  celdas[5].opciones = [11, 6, 4, 8, 10];*/
 }
 
-function draw() {}
+function draw() {
+  const celdasDisponibles = celdas.filter((celda) => {
+    return celda.colapsada == false;
+  });
+
+  if (celdasDisponibles.length > 0) {
+    celdasDisponibles.sort((a, b) => {
+      return a.opciones.length - b.opciones.length;
+    });
+
+    const celdasPorColapsar = celdasDisponibles.filter((celda) => {
+      return celda.opciones.length == celdasDisponibles[0].opciones.length;
+    });
+
+    const celdaSeleccionada = random(celdasPorColapsar);
+
+    print(celdaSeleccionada);
+  }
+
+  noLoop();
+}
