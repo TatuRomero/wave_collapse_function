@@ -1,11 +1,11 @@
-const celdas = []; // 4x4
-const RETICULA = 15;
+const celdas = []; //
+const RETICULA = 25;
 
 let ancho; //anchura de cada celda
 let alto; ///altura de cada celda
 
 const azulejos = [];
-const NA = 11; //Numero de azulejos
+const NA = 14; //Numero de azulejos
 
 const reglas = [
   //reglas de los bordes de cada azulejo
@@ -19,10 +19,10 @@ const reglas = [
 
   {
     //tile1
-    UP: 0,
+    UP: 1,
     RIGHT: 1,
     DOWN: 0,
-    LEFT: 1,
+    LEFT: 0,
   },
 
   {
@@ -67,16 +67,16 @@ const reglas = [
 
   {
     //tile7
-    UP: 0,
-    RIGHT: 0,
-    DOWN: 0,
-    LEFT: 0,
+    UP: 1,
+    RIGHT: 1,
+    DOWN: 1,
+    LEFT: 1,
   },
 
   {
     //tile8
-    UP: 0,
-    RIGHT: 0,
+    UP: 1,
+    RIGHT: 1,
     DOWN: 0,
     LEFT: 0,
   },
@@ -84,13 +84,37 @@ const reglas = [
   {
     //tile9
     UP: 0,
+    RIGHT: 1,
+    DOWN: 1,
+    LEFT: 0,
+  },
+
+  {
+    //tile10
+    UP: 0,
     RIGHT: 0,
     DOWN: 0,
     LEFT: 0,
   },
 
   {
-    //tile10
+    //tile11
+    UP: 0,
+    RIGHT: 0,
+    DOWN: 0,
+    LEFT: 0,
+  },
+
+  {
+    //tile12
+    UP: 0,
+    RIGHT: 0,
+    DOWN: 0,
+    LEFT: 0,
+  },
+
+  {
+    //tile13
     UP: 0,
     RIGHT: 0,
     DOWN: 0,
