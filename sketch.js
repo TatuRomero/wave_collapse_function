@@ -1,11 +1,10 @@
 const celdas = []; //
-const RETICULA = 20;
+const RETICULA = 15;
 
 let ancho; //anchura de cada celda
 let alto; ///altura de cada celda
 
 const azulejos = [];
-const NA = 14; //Numero de azulejos
 
 const reglas = [
   //reglas de los bordes de cada azulejo
@@ -122,6 +121,8 @@ const reglas = [
   },
 ];
 
+const NA = reglas.length; //Numero de azulejos
+
 function preload() {
   for (let i = 0; i < NA; i++) {
     azulejos[i] = loadImage("Tiles/tile" + i + ".png");
@@ -157,9 +158,13 @@ function setup() {
 }
 
 function draw() {
-  background(110);
+  background(233, 150, 122);
 
-  const celdasDisponibles = celdas.filter((celda) => {
+  const celdasConOpciones = celdas.filter((celda) => {
+    return celda.opciones.length > 0;
+  });
+
+  const celdasDisponibles = celdasConOpciones.filter((celda) => {
     return celda.colapsada == false;
   });
 
@@ -184,6 +189,12 @@ function draw() {
       for (let y = 0; y < RETICULA; y++) {
         const celdaIndex = x + y * RETICULA;
         const celdaActual = celdas[celdaIndex];
+
+        if (celdaActual.opciones.length < 1) {
+          fill(255, 100, 100);
+          rect(x * ancho, y * alto, ancho, alto);
+        }
+
         if (celdaActual.colapsada) {
           const indiceDeAzulejo = celdaActual.opciones[0];
           const reglasActuales = reglas[indiceDeAzulejo];
