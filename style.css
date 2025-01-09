@@ -1,8 +1,93 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
 canvas {
   display: block;
+}
+
+.ui {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* CSS */
+.button-33 {
+  background-color: #006699;
+  border-radius: 100px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-33:hover {
+  transform: scale(1.05) rotate(-1deg);
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 200px; /* Ancho del slider */
+  height: 30px; /* Altura total del slider */
+  background: #0099cc; /* Color de la pista */
+  border-radius: 10px; /* Esquinas redondeadas */
+  position: relative; /* Necesario para el efecto del thumb */
+  outline: none; /* Elimina el contorno */
+  overflow: hidden; /* Oculta el thumb fuera de los bordes */
+}
+
+.slider:hover {
+  background: #bbb; /* Color de la pista al pasar el mouse */
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px; /* Ancho del thumb */
+  height: 20px; /* Altura del thumb */
+  background: #006699; /* Color del thumb */
+  border-radius: 50%; /* Forma circular */
+  position: relative; /* Posición relativa al contenedor */
+  top: -3px; /* Centra el thumb verticalmente dentro del track */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra para darle efecto */
+  cursor: pointer; /* Cursor de mano */
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #006699;
+  border-radius: 50%;
+  position: relative;
+  top: -3px; /* Centra el thumb verticalmente dentro del track */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-runnable-track {
+  height: 15px; /* Altura de la pista */
+  background: #ccc; /* Color de la pista */
+  border-radius: 10px; /* Esquinas redondeadas */
+}
+
+.slider::-moz-range-track {
+  height: 15px;
+  background: #ccc;
+  border-radius: 10px;
 }

@@ -1,124 +1,28 @@
 const celdas = []; //
-const RETICULA = 15;
+let RETICULAX = document.getElementById("cellSize").value;
+let RETICULAY;
 
 let ancho; //anchura de cada celda
 let alto; ///altura de cada celda
+const startButton = document.getElementById("start");
 
 const azulejos = [];
 
 const reglas = [
-  //reglas de los bordes de cada azulejo
-  {
-    //tile0
-    UP: 1,
-    RIGHT: 1,
-    DOWN: 1,
-    LEFT: 0,
-  },
-
-  {
-    //tile1
-    UP: 1,
-    RIGHT: 1,
-    DOWN: 0,
-    LEFT: 0,
-  },
-
-  {
-    //tile2
-    UP: 0,
-    RIGHT: 0,
-    DOWN: 1,
-    LEFT: 1,
-  },
-
-  {
-    //tile3
-    UP: 1,
-    RIGHT: 0,
-    DOWN: 1,
-    LEFT: 1,
-  },
-
-  {
-    //tile4
-    UP: 1,
-    RIGHT: 0,
-    DOWN: 0,
-    LEFT: 0,
-  },
-
-  {
-    //tile5
-    UP: 0,
-    RIGHT: 1,
-    DOWN: 0,
-    LEFT: 0,
-  },
-
-  {
-    //tile6
-    UP: 1,
-    RIGHT: 0,
-    DOWN: 0,
-    LEFT: 1,
-  },
-
-  {
-    //tile7
-    UP: 1,
-    RIGHT: 1,
-    DOWN: 1,
-    LEFT: 1,
-  },
-
-  {
-    //tile8
-    UP: 1,
-    RIGHT: 1,
-    DOWN: 0,
-    LEFT: 0,
-  },
-
-  {
-    //tile9
-    UP: 0,
-    RIGHT: 1,
-    DOWN: 1,
-    LEFT: 0,
-  },
-
-  {
-    //tile10
-    UP: 0,
-    RIGHT: 0,
-    DOWN: 0,
-    LEFT: 0,
-  },
-
-  {
-    //tile11
-    UP: 0,
-    RIGHT: 0,
-    DOWN: 0,
-    LEFT: 0,
-  },
-
-  {
-    //tile12
-    UP: 0,
-    RIGHT: 0,
-    DOWN: 0,
-    LEFT: 0,
-  },
-
-  {
-    //tile13
-    UP: 0,
-    RIGHT: 0,
-    DOWN: 0,
-    LEFT: 0,
-  },
+  { UP: 1, RIGHT: 1, DOWN: 1, LEFT: 0 }, //0
+  { UP: 1, RIGHT: 1, DOWN: 0, LEFT: 0 }, //1
+  { UP: 0, RIGHT: 0, DOWN: 1, LEFT: 1 }, //2
+  { UP: 1, RIGHT: 0, DOWN: 1, LEFT: 1 }, //3
+  { UP: 1, RIGHT: 0, DOWN: 0, LEFT: 0 }, //4
+  { UP: 0, RIGHT: 1, DOWN: 0, LEFT: 0 }, //5
+  { UP: 1, RIGHT: 0, DOWN: 0, LEFT: 1 }, //6
+  { UP: 1, RIGHT: 1, DOWN: 1, LEFT: 1 }, //7
+  { UP: 1, RIGHT: 1, DOWN: 0, LEFT: 0 }, //8
+  { UP: 0, RIGHT: 1, DOWN: 1, LEFT: 0 }, //9
+  { UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0 }, //10
+  { UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0 }, //11
+  { UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0 }, //12
+  { UP: 0, RIGHT: 0, DOWN: 0, LEFT: 0 }, //13
 ];
 
 const NA = reglas.length; //Numero de azulejos
@@ -130,17 +34,18 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1080, 1080);
+  createCanvas(windowWidth, windowHeight);
 
-  ancho = width / RETICULA;
-  alto = height / RETICULA;
+  ancho = width / RETICULAX;
+  alto = ancho;
+  RETICULAY = Math.floor(height / ancho);
 
   let opcionesI = [];
   for (let i = 0; i < azulejos.length; i++) {
     opcionesI.push(i);
   }
 
-  for (let i = 0; i < RETICULA * RETICULA; i++) {
+  for (let i = 0; i < RETICULAX * RETICULAY; i++) {
     celdas[i] = {
       colapsada: false,
       opciones: opcionesI,
@@ -155,10 +60,12 @@ function setup() {
   celdas[6].opciones = [9, 7, 12];
   celdas[1].opciones = [6, 4, 8, 10];
   celdas[5].opciones = [11, 6, 4, 8, 10];*/
+
+  startButton.addEventListener("click", resetAll);
 }
 
 function draw() {
-  background(233, 150, 122);
+  // background(233, 150, 122);
 
   const celdasConOpciones = celdas.filter((celda) => {
     return celda.opciones.length > 0;
@@ -185,9 +92,9 @@ function draw() {
 
     /*print(celdaSeleccionada);*/
 
-    for (let x = 0; x < RETICULA; x++) {
-      for (let y = 0; y < RETICULA; y++) {
-        const celdaIndex = x + y * RETICULA;
+    for (let x = 0; x < RETICULAX; x++) {
+      for (let y = 0; y < RETICULAY; y++) {
+        const celdaIndex = x + y * RETICULAX;
         const celdaActual = celdas[celdaIndex];
 
         if (celdaActual.opciones.length < 1) {
@@ -204,23 +111,23 @@ function draw() {
 
           //Monitorear entropia UP
           if (y > 0) {
-            const indiceUP = x + (y - 1) * RETICULA;
+            const indiceUP = x + (y - 1) * RETICULAX;
             const celdaUP = celdas[indiceUP];
             if (!celdaUP.colapsada) {
               cambiarEntropia(celdaUP, reglasActuales["UP"], "DOWN");
             }
           }
           //Monitorear entropia RIGHT
-          if (x < RETICULA - 1) {
-            const indiceRIGHT = x + 1 + y * RETICULA;
+          if (x < RETICULAX - 1) {
+            const indiceRIGHT = x + 1 + y * RETICULAX;
             const celdaRIGHT = celdas[indiceRIGHT];
             if (!celdaRIGHT.colapsada) {
               cambiarEntropia(celdaRIGHT, reglasActuales["RIGHT"], "LEFT");
             }
           }
           //Monitorear entropia DOWN
-          if (y < RETICULA - 1) {
-            const indiceDOWN = x + (y + 1) * RETICULA;
+          if (y < RETICULAY - 1) {
+            const indiceDOWN = x + (y + 1) * RETICULAX;
             const celdaDOWN = celdas[indiceDOWN];
             if (!celdaDOWN.colapsada) {
               cambiarEntropia(celdaDOWN, reglasActuales["DOWN"], "UP");
@@ -228,7 +135,7 @@ function draw() {
           }
           //Monitorear entropía LEFT
           if (x > 0) {
-            const indiceLEFT = x - 1 + y * RETICULA;
+            const indiceLEFT = x - 1 + y * RETICULAX;
             const celdaLEFT = celdas[indiceLEFT];
             if (!celdaLEFT.colapsada) {
               cambiarEntropia(celdaLEFT, reglasActuales["LEFT"], "RIGHT");
@@ -241,17 +148,6 @@ function draw() {
       }
     }
   } else {
-    let opcionesI = [];
-    for (let i = 0; i < azulejos.length; i++) {
-      opcionesI.push(i);
-    }
-
-    for (let i = 0; i < RETICULA * RETICULA; i++) {
-      celdas[i] = {
-        colapsada: false,
-        opciones: opcionesI,
-      };
-    }
   }
 }
 
@@ -268,4 +164,24 @@ function cambiarEntropia(_celda, _regla, _opuesta) {
   }
   _celda.opciones = nuevasOpciones;
   print(nuevasOpciones);
+}
+
+function resetAll() {
+  RETICULAX = document.getElementById("cellSize").value;
+  ancho = width / RETICULAX;
+  alto = ancho;
+  RETICULAY = Math.floor(height / ancho);
+
+  background(255, 255, 255);
+
+  let opcionesI = [];
+  for (let i = 0; i < azulejos.length; i++) {
+    opcionesI.push(i);
+  }
+  for (let i = 0; i < RETICULAX * RETICULAX; i++) {
+    celdas[i] = {
+      colapsada: false,
+      opciones: opcionesI,
+    };
+  }
 }
